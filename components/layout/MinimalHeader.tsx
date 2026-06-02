@@ -3,13 +3,9 @@
 import Image from "next/image";
 import { MessageCircle, Phone } from "lucide-react";
 import { buildWhatsAppUrl } from "@/lib/utils";
-import { trackClick } from "@/lib/analytics";
-import { trackMetaContact } from "@/lib/meta-contact";
 import { telHref } from "@/lib/phone-display";
 
 interface MinimalHeaderProps {
-  /** Used only for analytics labelling. */
-  projectSlug?: string;
   /** Header logo path under /public. */
   logoSrc?: string;
   logoAlt?: string;
@@ -24,7 +20,6 @@ interface MinimalHeaderProps {
 }
 
 export function MinimalHeader({
-  projectSlug = "site",
   logoSrc = "/Mountain View Logo.webp",
   logoAlt = "Mountain View",
   whatsappNumber,
@@ -67,10 +62,6 @@ export function MinimalHeader({
                 ? "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-md border border-white/40 bg-white/10 px-3 py-2 text-xs sm:text-sm font-semibold text-white hover:bg-white/20 transition-colors"
                 : "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-md border border-navy/25 bg-white px-3 py-2 text-xs sm:text-sm font-semibold text-navy hover:border-navy/50 hover:bg-navy/5 transition-colors"
             }
-            onClick={() => {
-              trackClick(projectSlug, "header_phone");
-              trackMetaContact(projectSlug, "phone_header");
-            }}
           >
             <Phone size={16} strokeWidth={2.2} aria-hidden />
             <span>اتصل بنا</span>
@@ -80,10 +71,6 @@ export function MinimalHeader({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"
-            onClick={() => {
-              trackClick(projectSlug, "header_whatsapp");
-              trackMetaContact(projectSlug, "whatsapp_header");
-            }}
             className="inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-md bg-[#25D366] text-white px-3 py-2 text-xs sm:text-sm font-semibold hover:bg-[#20bd5a] transition-colors"
           >
             <MessageCircle size={16} strokeWidth={2.2} aria-hidden />
