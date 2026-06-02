@@ -10,24 +10,24 @@ export const content: ProjectContent = {
   developer: "ماونتن ڤيو",
   city: "القاهرة الجديدة",
   location:
-    "مجتمع سكني على الواجهة المائية في القاهرة الجديدة — ممرات مشاة، مساحات خضراء، ووحدات بتشطيبات Millennial وحدائق خاصة وSkyvilla.",
-  headline: "إطلاق كريك ڤيو — عيشة هادية على الكريك في القاهرة الجديدة",
+    "في قلب القاهرة الجديدة — على AUC Avenue وSouth 90 St، بسهولة وصول لـ MV Hyde Park (٣ دقائق) وSouth 90 Road (٥ دقائق) وGolden Square (١٠ دقائق).",
+  headline: "كريك ڤيو — Elevating the Creekfront Experience",
   subheadline:
-    "أسعار بداية على خطة ٦ سنوات، تقسيط مرن حتى ١٤ سنة، وتسليم مبكر — خطط سداد بتفاصيل توضّحها مع مستشار المبيعات.",
+    "مجتمع سكني من ماونتن ڤيو حول الكريك: Heights · Valleys · Islands · The Lighthouse — أسعار بداية على خطة ٦ سنوات، تقسيط حتى ١٤ سنة، وتسليم مبكر.",
   description:
-    "كريك ڤيو يجمع بين architecture ماونتن ڤيو المعروفة، ومساحات مفتوحة على الماء والمناظر، مع تشكيلة وحدات من غرفة وحتى فيلات حديقة.",
-  cover: "/projects/creekview-new-cairo/cover.png",
+    "ممرات خضراء وفروع مائية تخلق إحساس بالانفتاح والهدوء. كريك ڤيو مُصمَّم حول الكريك والطبيعة، مع وحدات متنوعة من Millennial وApartment حتى Skyvilla وI-villa Garden.",
+  cover: "/projects/creekview-new-cairo/cover.webp",
   galleryImages: [
-    "/projects/creekview-new-cairo/gallery-01.png",
-    "/projects/creekview-new-cairo/gallery-02.png",
-    "/projects/creekview-new-cairo/gallery-03.png",
-    "/projects/creekview-new-cairo/gallery-04.png",
-    "/projects/creekview-new-cairo/gallery-05.png",
-    "/projects/creekview-new-cairo/gallery-06.png",
-    "/projects/creekview-new-cairo/gallery-07.png",
-    "/projects/creekview-new-cairo/gallery-08.png",
-    "/projects/creekview-new-cairo/gallery-09.png",
-    "/projects/creekview-new-cairo/gallery-10.png",
+    "/projects/creekview-new-cairo/gallery-creekfront-2.webp",
+    "/projects/creekview-new-cairo/gallery-cliffside.webp",
+    "/projects/creekview-new-cairo/gallery-valley-trails.webp",
+    "/projects/creekview-new-cairo/gallery-islands-calm.webp",
+    "/projects/creekview-new-cairo/gallery-yoga-decks.webp",
+    "/projects/creekview-new-cairo/creek-walks.webp",
+    "/projects/creekview-new-cairo/heights.webp",
+    "/projects/creekview-new-cairo/valleys.webp",
+    "/projects/creekview-new-cairo/islands.webp",
+    "/projects/creekview-new-cairo/lighthouse.webp",
   ],
   pricingTable: {
     title: "جدول الأسعار — سعر بداية خطة ٦ سنوات",
@@ -87,12 +87,14 @@ export const content: ProjectContent = {
     ],
   },
   amenities: [
-    "واجهة مائية (كريك)",
-    "ممرات مشاة ودراجات",
-    "مناظر طبيعية وحدائق",
-    "إضاءة خارجية وأمن ٢٤/٧",
+    "Heights · Valleys · Islands · The Lighthouse",
+    "ممرات مشاة وركض ودراجات على الكريك",
+    "إطلالات مباشرة على الكريك وجلسات بإطلالة",
+    "أنشطة مائية خفيفة ومساحات هادئة على الماء",
+    "خدمات يومية عند الطلب: أمن، صيانة، وخدمات منزلية",
+    "نظام خدمات ذكي ومتكامل",
   ],
-  heroImage: "/projects/creekview-new-cairo/cover.png",
+  heroImage: "/projects/creekview-new-cairo/hero-creekfront.webp",
   startingPrice: "من ٥٫٤ مليون جنيه (خطة ٦ سنوات)",
   downPayment: "حسب خطة السداد — يُحدّد مع المبيعات",
   installmentYears: 14,
@@ -100,6 +102,7 @@ export const content: ProjectContent = {
   propertyTypes: [
     "Millennial",
     "Garden Millennial",
+    "Apartment",
     "Skyvilla",
     "I-villa Garden",
   ],
@@ -127,9 +130,14 @@ export const content: ProjectContent = {
   ],
   whyPoints: [
     {
-      title: "مجتمع على الماء",
+      title: "Elevating the Creekfront Experience",
       description:
-        "تصميم يركّز على الكريك والمشي والمساحات الخضراء — أسلوب حياة أهدى وسط القاهرة الجديدة.",
+        "ممرات وفروع مائية تخلق انفتاحاً وهدوءاً، مع تصميم يستفيد من الإطلالات على الكريك.",
+    },
+    {
+      title: "أربع تجارب — Heights · Valleys · Islands · Lighthouse",
+      description:
+        "من الإطلالات المرتفعة والجلسات على الكريك، إلى الممرات والجزر الهادئة وThe Lighthouse كقلب تجاري واجتماعي.",
     },
     {
       title: "مرونة في السداد",
@@ -137,15 +145,17 @@ export const content: ProjectContent = {
         "خطة بداية ٦ سنوات للأسعار المعروضة، مع إمكانية تقسيط حتى ١٤ سنة — التفاصيل مع مستشار المبيعات.",
     },
     {
-      title: "جودة ماونتن ڤيو",
+      title: "ماونتن ڤيو — خبرة طويلة في المجتمعات السكنية",
       description:
-        "نفس فلسفة التطوير والتشطيبات المعتادة لمشاريع ماونتن ڤيو في القاهرة الجديدة.",
+        "منذ ٢٠٠٥، أكثر من ١٧ ألف وحدة مسلّمة و٢٤ مشروعاً — بنفس اهتمام ماونتن ڤيو بالتصميم والتفاصيل في مشروعاتها السابقة.",
     },
   ],
   nearbyPlaces: [
-    { name: "الحركة الرئيسية بالتجمع", distance: "سهولة وصول" },
-    { name: "مراكز تعليم وخدمات", distance: "بالقرب من المشروع" },
-    { name: "ماونتن ڤيو — مشاريع أخرى", distance: "نفس مطوّر موثوق" },
+    { name: "MV Hyde Park", distance: "٣ دقائق" },
+    { name: "South 90 Road", distance: "٥ دقائق" },
+    { name: "Golden Square", distance: "١٠ دقائق" },
+    { name: "AUC & Westin Hotel", distance: "قريب" },
+    { name: "AUC Avenue · South 90 St", distance: "وصول مباشر" },
   ],
   faqs: [
     {
@@ -167,9 +177,9 @@ export const content: ProjectContent = {
   seoTitle: "كريك ڤيو القاهرة الجديدة | ماونتن ڤيو — إطلاق على الواجهة المائية",
   seoDescription:
     "كريك ڤيو نيو كايرو من ماونتن ڤيو: وحدات متنوعة، تقسيط حتى ١٤ سنة، وتسليم مبكر. أسعار بداية على خطة ٦ سنوات — تواصل للتفاصيل.",
-  ogImage: "/projects/creekview-new-cairo/cover.png",
-  phoneNumber: "201223147238",
-  whatsappNumber: "201118884994",
+  ogImage: "/projects/creekview-new-cairo/hero-creekfront.webp",
+  phoneNumber: "201038666566",
+  whatsappNumber: "201038666566",
   whatsappInquiryMessage:
     "السلام عليكم، مهتم بمشروع كريك ڤيو القاهرة الجديدة من ماونتن ڤيو وأرغب في التفاصيل والأسعار.",
   ctaText: "سجّل اهتمامك بكريك ڤيو",

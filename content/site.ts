@@ -16,8 +16,8 @@ export interface SiteFAQ {
 export const SITE = {
   developer: "ماونتن ڤيو",
   /** Default WhatsApp / phone (E.164 digits, no plus). */
-  whatsappNumber: "201118884994",
-  phoneNumber: "201223147238",
+  whatsappNumber: "201038666566",
+  phoneNumber: "201038666566",
 
   hero: {
     eyebrow: "ماونتن ڤيو · إطلاق كريك ڤيو — القاهرة الجديدة",

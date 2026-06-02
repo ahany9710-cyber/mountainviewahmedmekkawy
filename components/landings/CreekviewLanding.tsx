@@ -1,11 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useState, useEffect, useCallback } from "react";
-import { content as creekProject } from "@/content/projects/creekview-new-cairo";
-import { FORMSPREE_LEAD_ENDPOINT } from "@/lib/formspree";
-import { isValidEgyptPhone, normalizePhone } from "@/lib/validation";
+import { CreekLeadForm } from "@/components/landings/CreekLeadForm";
+import { CreekLeadPopup } from "@/components/landings/CreekLeadPopup";
 import "./creekview.css";
 
 /** Internal redirects — لا تُظهر أرقام المبيعات في `href`. انظر `app/r/creek-call`, `app/r/creek-wa`. */
@@ -16,10 +14,37 @@ const creekWaPreset = (
 const creekWaMsg = (msg: string) => `/r/creek-wa?msg=${encodeURIComponent(msg)}`;
 
 const HERO_IMAGES = [
-  "/projects/creekview-new-cairo/creek-01.jpeg",
-  "/projects/creekview-new-cairo/creek-04.jpeg",
-  "/projects/creekview-new-cairo/creek-06.jpeg",
-  "/projects/creekview-new-cairo/creek-05.jpeg",
+  "/projects/creekview-new-cairo/heights.webp",
+  "/projects/creekview-new-cairo/gallery-cliffside.webp",
+  "/projects/creekview-new-cairo/islands.webp",
+  "/projects/creekview-new-cairo/lighthouse.webp",
+];
+
+const NEIGHBORHOODS = [
+  {
+    name: "Heights",
+    nameAr: "هايتس",
+    img: "/projects/creekview-new-cairo/heights.webp",
+    desc: "منطقة مرتفعة على الكريك بإطلالات مفتوحة، جلسات ومطاعم بإطلالة، وقرب من The Lighthouse والخدمات.",
+  },
+  {
+    name: "Valleys",
+    nameAr: "فالي",
+    img: "/projects/creekview-new-cairo/valleys.webp",
+    desc: "ممرات مشي وركض ودراجات، كباري مشاة، مناطق رياضية، وأنشطة مائية خفيفة على الكريك.",
+  },
+  {
+    name: "Islands",
+    nameAr: "آيلاندز",
+    img: "/projects/creekview-new-cairo/islands.webp",
+    desc: "جزر وسط المياه بإطلالات هادئة، شلالات طبيعية، جلسات خضراء، ومساحات للاسترخاء على الماء.",
+  },
+  {
+    name: "The Lighthouse",
+    nameAr: "اللايت هاوس",
+    img: "/projects/creekview-new-cairo/lighthouse.webp",
+    desc: "قلب اجتماعي وتجاري للمشروع، فيه محلات وكافيهات وخدمات يومية قريبة من السكان.",
+  },
 ];
 
 const UNITS = [
@@ -43,12 +68,12 @@ const FAQS = [
 ];
 
 const GALLERY = [
-  { src: "/projects/creekview-new-cairo/creek-01.jpeg", label: "The Canal", caption: "قلب المجتمع على الماء", cls: "g1" },
-  { src: "/projects/creekview-new-cairo/creek-02.jpeg", label: "Garden Lounge", caption: "جلسات خارجية على الكريك", cls: "g2" },
-  { src: "/projects/creekview-new-cairo/creek-06.jpeg", label: "Boardwalk", caption: "ممشى على الواجهة المائية", cls: "g3" },
-  { src: "/projects/creekview-new-cairo/creek-05.jpeg", label: "Approach", caption: "مدخل بسلالم حجرية", cls: "g4" },
-  { src: "/projects/creekview-new-cairo/creek-04.jpeg", label: "After hours", caption: "إضاءة الكريك بعد المغرب", cls: "g5" },
-  { src: "/projects/creekview-new-cairo/creek-07.jpeg", label: "The Walk", caption: "ممشى الواجهة الرئيسي", cls: "g6" },
+  { src: "/projects/creekview-new-cairo/gallery-creekfront-2.webp", label: "Creekside Living", caption: "عيشة على الواجهة المائية", cls: "g1" },
+  { src: "/projects/creekview-new-cairo/gallery-cliffside.webp", label: "Cliffside Dining", caption: "إطلالات واسعة على الكريك", cls: "g2" },
+  { src: "/projects/creekview-new-cairo/gallery-valley-trails.webp", label: "Valley Trails", caption: "ممرات وحركة على الكريك", cls: "g3" },
+  { src: "/projects/creekview-new-cairo/gallery-islands-calm.webp", label: "Islands", caption: "هدوء الجزر المائية", cls: "g4" },
+  { src: "/projects/creekview-new-cairo/gallery-yoga-decks.webp", label: "Yoga Decks", caption: "مساحات هادئة على الماء", cls: "g5" },
+  { src: "/projects/creekview-new-cairo/creek-walks.webp", label: "Creek Walks", caption: "ممشى الكريك الرئيسي", cls: "g6" },
 ];
 
 function PhoneIcon({ size = 14 }: { size?: number }) {
@@ -68,17 +93,28 @@ function WhatsAppIcon({ size = 15 }: { size?: number }) {
 }
 
 export function CreekviewLanding() {
-  const router = useRouter();
   const [heroIdx, setHeroIdx] = useState(0);
   const [heroFading, setHeroFading] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [budget, setBudget] = useState<string | null>(null);
-  const [formSubmitting, setFormSubmitting] = useState(false);
-  const [formErrors, setFormErrors] = useState<{
-    name?: string;
-    phone?: string;
-    form?: string;
-  }>({});
+  const [popupOpen, setPopupOpen] = useState(false);
+
+  const openLeadPopup = useCallback(() => setPopupOpen(true), []);
+  const closeLeadPopup = useCallback(() => {
+    setPopupOpen(false);
+    try {
+      sessionStorage.setItem("creekview-popup-dismissed", "1");
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const handleLeadAnchor = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault();
+      openLeadPopup();
+    },
+    [openLeadPopup],
+  );
 
   const switchHero = useCallback((i: number) => {
     setHeroFading(true);
@@ -95,68 +131,15 @@ export function CreekviewLanding() {
     return () => clearInterval(interval);
   }, [heroIdx, switchHero]);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const name = (form.elements.namedItem("name") as HTMLInputElement).value.trim();
-    const phone = (form.elements.namedItem("phone") as HTMLInputElement).value.trim();
-    const unitType = (form.elements.namedItem("type") as HTMLSelectElement).value;
-    const errors: { name?: string; phone?: string } = {};
-    if (name.length < 2) errors.name = "من فضلك ادخل الاسم";
-    if (!phone.trim()) errors.phone = "رقم الموبايل مطلوب";
-    else if (!isValidEgyptPhone(phone)) {
-      errors.phone =
-        "رقم هاتف صحيح مطلوب (مصر، السعودية، البحرين، الإمارات، قطر)";
-    }
-    setFormErrors(errors);
-    if (Object.keys(errors).length > 0) return;
-
-    setFormSubmitting(true);
-    setFormErrors({});
-
-    const payload: Record<string, string> = {
-      phone: normalizePhone(phone) || phone.trim(),
-      project_slug: creekProject.slug,
-      project_name: creekProject.projectName,
-      source: "creek-landing",
-      unit_interest: unitType,
-      approximate_budget: budget ?? "",
-      _subject: `استفسار ماونتن ڤيو — ${name || "عميل"} — ${creekProject.projectName}`,
-    };
-    if (name) payload.name = name;
-
+  useEffect(() => {
     try {
-      const res = await fetch(FORMSPREE_LEAD_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-      const data = (await res.json().catch(() => ({}))) as {
-        error?: string;
-        errors?: Record<string, string>;
-      };
-
-      if (!res.ok) {
-        const msg =
-          (typeof data.error === "string" && data.error) ||
-          Object.values(data.errors ?? {})[0] ||
-          "تعذر إرسال النموذج. حاول مرة أخرى.";
-        setFormErrors({ form: msg });
-        return;
-      }
-
-      router.push("/thank-you");
+      if (sessionStorage.getItem("creekview-popup-dismissed")) return;
     } catch {
-      setFormErrors({
-        form: "حدث خطأ في الاتصال. تحقق من الإنترنت وحاول مجدداً.",
-      });
-    } finally {
-      setFormSubmitting(false);
+      // ignore
     }
-  }
+    const timer = window.setTimeout(() => setPopupOpen(true), 5000);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   return (
     <div className="cv-page">
@@ -208,7 +191,7 @@ export function CreekviewLanding() {
               <PhoneIcon />
               <span className="t">اتصل الآن</span>
             </a>
-            <a className="wa" href="#lead" aria-label="احجز مكانك على الماستر بلان">
+            <a className="wa" href="#lead" onClick={handleLeadAnchor} aria-label="احجز مكانك على الماستر بلان">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={16} height={16} aria-hidden>
                 <path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" />
                 <path d="M14 2 v6 h6 M9 13 h6 M9 17 h6" />
@@ -232,7 +215,7 @@ export function CreekviewLanding() {
         <div className="wrap hero-inner">
           <div className="hero-badge">
             <span className="dot" />
-            <span>إطلاق رسمي · أكتوبر ٢٠٢٦</span>
+            <span>إطلاق رسمي · يونيو ٢٠٢٦</span>
           </div>
 
           <div className="hero-mid">
@@ -245,7 +228,9 @@ export function CreekviewLanding() {
               <span className="row2">عيشة على الكريك في القاهرة الجديدة</span>
             </h1>
             <p className="hero-sub">
-              مجتمع سكني على الواجهة المائية بتصميم ماونتن ڤيو المعتاد — ممرات مشاة ومساحات خضراء، تشكيلة وحدات من غرفة وحتى فيلا حديقة، وتسليم مبكر خلال ٢٫٥ سنة على خطة سداد ٦ سنوات.
+              كريك ڤيو مجتمع سكني من ماونتن ڤيو في قلب القاهرة الجديدة، مبني حول الكريك والمساحات الخضراء. مناطق متنوعة مثل Heights وValleys وIslands وThe Lighthouse، ووحدات من غرفة وحتى I-villa Garden، و
+              <span className="hero-sub-hl">تسليم مبكر خلال ٢٫٥ سنة</span>
+              {" "}على خطة ٦ سنوات.
             </p>
 
             <div className="hero-bottom">
@@ -258,7 +243,7 @@ export function CreekviewLanding() {
                   <WhatsAppIcon size={18} />
                   كلمنا واتساب
                 </a>
-                <a className="btn btn-form" href="#lead">
+                <a className="btn btn-form" href="#lead" onClick={handleLeadAnchor}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={18} height={18}>
                     <path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" />
                     <path d="M14 2 v6 h6" />
@@ -307,10 +292,10 @@ export function CreekviewLanding() {
       {/* TRUST STRIP */}
       <section className="trust">
         <div className="wrap">
-          <div className="cell"><div className="num">+٢٥ سنة</div><div className="lbl">خبرة في تطوير المجتمعات</div></div>
-          <div className="cell"><div className="num">+٢٥ مشروع</div><div className="lbl">في القاهرة والساحل</div></div>
-          <div className="cell"><div className="num">+٣٠ ألف</div><div className="lbl">عميل اختار ماونتن ڤيو</div></div>
-          <div className="cell"><div className="num">تسليم في موعده</div><div className="lbl">سجل تنفيذ موثّق</div></div>
+          <div className="cell"><div className="num">+٢٠ سنة</div><div className="lbl">خبرة ماونتن ڤيو منذ ٢٠٠٥</div></div>
+          <div className="cell"><div className="num">+١٧ ألف</div><div className="lbl">وحدة مسلّمة</div></div>
+          <div className="cell"><div className="num">٢٤ مشروع</div><div className="lbl">في East Cairo والساحل</div></div>
+          <div className="cell"><div className="num">٢١٩٤ فدان</div><div className="lbl">مجتمعات East Cairo</div></div>
         </div>
       </section>
 
@@ -322,7 +307,7 @@ export function CreekviewLanding() {
               <div className="eyebrow-ar">المشروع باختصار</div>
               <h2>أربع نقاط<br />تختصر كريك ڤيو</h2>
             </div>
-            <p>إطلاق جديد من ماونتن ڤيو في قلب القاهرة الجديدة — تصميم على الكريك، خطط سداد مرنة، وتسليم مبكر. التفاصيل الكاملة في الجدول والمحادثة مع مستشار المبيعات.</p>
+            <p>إطلاق جديد من ماونتن ڤيو على الكريك: مناطق مختلفة داخل المشروع، مساحات خضراء وممرات، وخطط سداد مرنة.</p>
           </div>
           <div className="hl-grid">
             <div className="hl-cell">
@@ -331,7 +316,7 @@ export function CreekviewLanding() {
               </div>
               <div className="hl-label">التشكيلة</div>
               <div className="hl-value">من غرفة حتى فيلا حديقة</div>
-              <div className="hl-note">Millennial · Garden · Skyvilla · I-villa</div>
+              <div className="hl-note">Millennial · Apartment · Skyvilla · I-villa</div>
             </div>
             <div className="hl-cell">
               <div className="hl-ico">
@@ -365,22 +350,22 @@ export function CreekviewLanding() {
       <section className="s editorial">
         <div className="wrap">
           <div className="ed-grid">
-            <div className="ed-img">
-              <img src="/projects/creekview-new-cairo/creek-03.jpeg" alt="Creekview canal view" />
-              <div className="ribbon">Creekview, dawn</div>
+            <div className="ed-img ed-img--map">
+              <img src="/projects/creekview-new-cairo/masterplan-aerial.png" alt="Creekview masterplan" />
+              <div className="ribbon">Masterplan</div>
             </div>
             <div className="ed-body">
-              <div className="eyebrow-ar">لماذا كريك ڤيو</div>
-              <h3>المكان<br />قبل الوحدة.</h3>
+              <div className="eyebrow-ar">ماستر بلان كريك ڤيو</div>
+              <h3>مجتمع كامل<br />حول الكريك.</h3>
               <p style={{ color: "var(--cv-stone)", fontSize: 16, maxWidth: 520, lineHeight: 1.75 }}>
-                الفكرة ببساطة: مجتمع متكامل على الواجهة المائية في القاهرة الجديدة، مساحات مفتوحة، وممرات مشاة. مش بس وحدة بتشتريها — أسلوب حياة بترجعله كل يوم.
+                كريك ڤيو متصمم حول فروع مائية وممرات خضراء، عشان أغلب التجربة اليومية تبقى مرتبطة بالمشي، الإطلالات، والخدمات القريبة. الفكرة مش مجرد عمارة منفصلة، لكنها مجتمع متكامل حوالين الماء والطبيعة.
               </p>
               <div className="ed-pillars">
                 {[
-                  { n: "01", h: "مجتمع على الماء", p: "تصميم يركّز على الكريك والمشي والمساحات الخضراء — هدوء وخصوصية وسط حركة التجمع الخامس." },
-                  { n: "02", h: "مرونة في السداد", p: "خطة بداية ٦ سنوات للأسعار المعروضة، مع إمكانية تقسيط حتى ١٤ سنة. التفاصيل والجدولة الفعلية مع مستشار المبيعات." },
-                  { n: "03", h: "جودة ماونتن ڤيو", p: "نفس فلسفة التطوير والتشطيبات اللي عرفتها في باقي مشاريع ماونتن ڤيو — سجل تسليم في موعده موثّق." },
-                  { n: "04", h: "تسليم مبكر", p: "٢٫٥ سنة فقط على خطة ٦ سنوات — قيمة سكنية وقيمة استثمارية في نفس الوقت." },
+                  { n: "01", h: "تصميم مستوحى من الكريك", p: "توزيع الوحدات والممرات معمول حول فروع المياه والمساحات المفتوحة لخلق إطلالات أهدى وتجربة يومية ألطف." },
+                  { n: "02", h: "مناطق بطابع مختلف", p: "Heights وValleys وIslands يقدموا اختيارات مختلفة بين الإطلالات المرتفعة، الحركة على الممرات، والهدوء حول المياه." },
+                  { n: "03", h: "The Lighthouse", p: "منطقة خدمات وتجارية داخل المشروع تضم كافيهات ومحلات وخدمات قريبة من السكان." },
+                  { n: "04", h: "خدمات يومية مريحة", p: "إدارة وأمن وصيانة وخدمات منزلية عند الطلب لتسهيل الحياة اليومية داخل المجتمع." },
                 ].map((pillar) => (
                   <div className="pillar" key={pillar.n}>
                     <span className="n">{pillar.n}</span>
@@ -392,6 +377,35 @@ export function CreekviewLanding() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEIGHBORHOODS */}
+      <section className="s neighborhoods">
+        <div className="wrap">
+          <div className="s-head">
+            <div>
+              <div className="eyebrow-ar">Experiences That Flow Naturally</div>
+              <h2>Heights · Valleys<br />Islands · Lighthouse</h2>
+            </div>
+            <p>أربع مناطق داخل ماستر بلان واحد — كل منطقة لها طابع مختلف، وكلها متصلة بالكريك والممرات الخضراء.</p>
+          </div>
+          <div className="hood-grid">
+            {NEIGHBORHOODS.map((hood) => (
+              <div className="hood-card" key={hood.name}>
+                <div className="hood-img">
+                  <img src={hood.img} alt={hood.name} />
+                </div>
+                <div className="hood-body">
+                  <div className="hood-name">
+                    <span className="latin">{hood.name}</span>
+                    <span className="ar">{hood.nameAr}</span>
+                  </div>
+                  <p>{hood.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -423,7 +437,7 @@ export function CreekviewLanding() {
           <div className="s-head">
             <div>
               <div className="eyebrow-ar">جدول الأسعار · خطة ٦ سنوات</div>
-              <h2>التشكيلة<br />والأسعار.</h2>
+              <h2>المساحات<br />والأسعار.</h2>
             </div>
             <p>الأرقام التالية تمثّل سعر بداية على خطة سداد ٦ سنوات. يمكن مناقشة خيارات أطول حتى ١٤ سنة وتعديل الجدولة مع مستشار المبيعات.</p>
           </div>
@@ -448,7 +462,7 @@ export function CreekviewLanding() {
                     <WhatsAppIcon size={13} />
                     السعر النهائي
                   </button>
-                  <button className="primary" onClick={() => document.getElementById("lead")?.scrollIntoView({ behavior: "smooth", block: "start" })}>
+                  <button className="primary" type="button" onClick={openLeadPopup}>
                     احجز
                   </button>
                 </div>
@@ -472,12 +486,12 @@ export function CreekviewLanding() {
 
       {/* LIFESTYLE QUOTE */}
       <section className="lifestyle">
-        <div className="bg" style={{ backgroundImage: "url('/projects/creekview-new-cairo/creek-04.jpeg')" }} />
+        <div className="bg" style={{ backgroundImage: "url('/projects/creekview-new-cairo/gallery-creekfront-2.webp')" }} />
         <div className="wrap">
           <div className="quote-mark">&ldquo;</div>
-          <h2>كل بيت فيه كريك يطل عليه.</h2>
-          <p>ماونتن ڤيو ما بتبنيش وحدات. بتصمّم لحظات — مشي الصبح على الممشى، فطار على شرفة على الماء، وأطفال بيتسلوا في حدائق على بُعد دقائق من باب البيت.</p>
-          <a className="btn btn-call" href="#lead">احجز معاينة على الموقع</a>
+          <h2>يومك ماشي مع الكريك.</h2>
+          <p>في كريك ڤيو، الحياة اليومية متقسمة بين ممشى على المياه، جلسات بإطلالة، أنشطة خفيفة، ومساحات هادئة للاسترخاء. مشروع معمول عشان الإطلالة والخدمات تبقى جزء من يومك.</p>
+          <a className="btn btn-call" href="#lead" onClick={handleLeadAnchor}>احجز معاينة على الموقع</a>
         </div>
       </section>
 
@@ -488,13 +502,13 @@ export function CreekviewLanding() {
             <div className="lead-left">
               <div>
                 <div className="eyebrow-ar">سجّل اهتمامك</div>
-                <h2>اتركلنا رقمك،<br />والتفاصيل توصلك خلال الساعة.</h2>
-                <p>بنبعتلك جدول الأسعار الكامل، خرائط الموقع، وعرض رسمي مكتوب من ماونتن ڤيو. مكالمة مجاملة، بدون التزام.</p>
+                <h2>سيب بياناتك،<br />ونبعتلك التفاصيل.</h2>
+                <p>هنبعتلك جدول الأسعار، الماستر بلان، وخيارات السداد المتاحة. التواصل للاستفسار فقط وبدون أي التزام.</p>
               </div>
               <ul className="lead-perks">
                 {[
-                  "عرض رسمي مكتوب من ماونتن ڤيو",
-                  "جدول أسعار كامل لكل تشكيلة",
+                  "تفاصيل مكتوبة عن المشروع",
+                  "جدول أسعار لكل نوع وحدة",
                   "خطط سداد مرنة تتلاءم مع ميزانيتك",
                   "تنسيق معاينة على أرض المشروع",
                 ].map((perk) => (
@@ -509,66 +523,7 @@ export function CreekviewLanding() {
             </div>
 
             <div className="lead-card">
-              <>
-                <h3>طلب التفاصيل</h3>
-                <div className="sub">٣٠ ثانية فقط — استمارة قصيرة</div>
-                <form onSubmit={handleSubmit} autoComplete="on">
-                  <div className="row2c">
-                    <div className="field">
-                      <label htmlFor="lf-name">الاسم</label>
-                      <input id="lf-name" name="name" type="text" placeholder="اسمك بالكامل" required disabled={formSubmitting} />
-                      <div className="err">{formErrors.name || ""}</div>
-                    </div>
-                    <div className="field">
-                      <label htmlFor="lf-phone">رقم الموبايل</label>
-                      <input id="lf-phone" name="phone" type="tel" placeholder="01XXXXXXXXX" inputMode="numeric" required disabled={formSubmitting} />
-                      <div className="err">{formErrors.phone || ""}</div>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="lf-type">نوع الوحدة المطلوبة</label>
-                    <select id="lf-type" name="type" disabled={formSubmitting}>
-                      <option>Millennial — غرفة نوم</option>
-                      <option>Garden Millennial — غرفة نوم</option>
-                      <option>Millennial — غرفتين</option>
-                      <option>Garden Millennial — غرفتين</option>
-                      <option>Millennial — ٣ غرف</option>
-                      <option>Garden Millennial — ٣ غرف</option>
-                      <option>Skyvilla — ٣ غرف</option>
-                      <option>I-villa Garden — ٣ غرف</option>
-                      <option>غير متأكد بعد — محتاج استشارة</option>
-                    </select>
-                  </div>
-                  <div className="field">
-                    <label>الميزانية التقريبية</label>
-                    <div className="budget-chips">
-                      {["٥–٧ مليون", "٧–٩ مليون", "٩–١٢ مليون", "١٢ مليون+", "أحتاج استشارة"].map((b) => (
-                        <div
-                          key={b}
-                          className={`chip ${budget === b ? "active" : ""}`}
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => !formSubmitting && setBudget(b)}
-                          onKeyDown={(ev) => {
-                            if ((ev.key === "Enter" || ev.key === " ") && !formSubmitting)
-                              setBudget(b);
-                          }}
-                        >
-                          {b}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  {formErrors.form ? (
-                    <p style={{ color: "#c41e3a", fontSize: 14, margin: "0 0 8px" }}>{formErrors.form}</p>
-                  ) : null}
-                  <button className="btn-submit" type="submit" disabled={formSubmitting}>
-                    <span>{formSubmitting ? "جاري الإرسال…" : "ابعتلي تفاصيل كريك ڤيو"}</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={18} height={18}><path d="M5 12 H19 M19 12 L13 6 M19 12 L13 18" /></svg>
-                  </button>
-                  <div className="fineprint">بإرسال النموذج أنت توافق على تواصل فريق المبيعات معك — لن نشارك بياناتك مع أي طرف ثالث.</div>
-                </form>
-              </>
+              <CreekLeadForm source="creek-landing" formId="lf" />
             </div>
           </div>
         </div>
@@ -582,16 +537,16 @@ export function CreekviewLanding() {
               <div className="eyebrow-ar">الموقع</div>
               <h2>قلب القاهرة الجديدة<br />وعلى مرمى البصر.</h2>
             </div>
-            <p>الموقع بيوفّر سهولة وصول للحركة الرئيسية في التجمع، مع قربه من مراكز التعليم والخدمات الكبرى ومشاريع ماونتن ڤيو الأخرى.</p>
+            <p>في قلب New Cairo — على AUC Avenue وSouth 90 St، بسهولة وصول لأهم محاور التجمع والخدمات.</p>
           </div>
           <div className="loc-grid">
             <div className="loc-list">
               {[
-                { nm: "الحركة الرئيسية بالتجمع الخامس", dst: "سهولة وصول" },
-                { nm: "مراكز تعليم وخدمات", dst: "دقائق" },
-                { nm: "العاصمة الإدارية الجديدة", dst: "قريب" },
-                { nm: "مطار القاهرة الدولي", dst: "≈ ٢٥ دقيقة" },
-                { nm: "ماونتن ڤيو — مشاريع أخرى", dst: "نفس المطوّر" },
+                { nm: "MV Hyde Park", dst: "٣ دقائق" },
+                { nm: "South 90 Road", dst: "٥ دقائق" },
+                { nm: "Golden Square", dst: "١٠ دقائق" },
+                { nm: "AUC & Westin Hotel", dst: "قريب" },
+                { nm: "AUC Avenue · South 90 St", dst: "وصول مباشر" },
               ].map((loc) => (
                 <div className="row" key={loc.nm}>
                   <span className="nm">{loc.nm}</span>
@@ -600,21 +555,7 @@ export function CreekviewLanding() {
               ))}
             </div>
             <div className="loc-map" aria-label="Map">
-              <svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice">
-                <defs>
-                  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,.06)" strokeWidth="1" />
-                  </pattern>
-                </defs>
-                <rect width="600" height="450" fill="url(#grid)" />
-                <path d="M 0 220 Q 200 200 600 250" stroke="rgba(184,153,104,.55)" strokeWidth="2" fill="none" />
-                <path d="M 320 0 L 280 450" stroke="rgba(184,153,104,.35)" strokeWidth="2" fill="none" />
-                <path d="M 0 360 L 600 320" stroke="rgba(184,153,104,.25)" strokeWidth="1" fill="none" />
-                <path d="M 0 280 Q 180 240 350 280 T 600 290" stroke="rgba(120,180,210,.4)" strokeWidth="6" fill="none" strokeLinecap="round" />
-                <text x="60" y="200" fill="rgba(255,255,255,.4)" fontFamily="Inter" fontSize="11" letterSpacing="2">NEW CAIRO</text>
-                <text x="430" y="380" fill="rgba(255,255,255,.4)" fontFamily="Inter" fontSize="11" letterSpacing="2">90TH ST.</text>
-                <text x="30" y="290" fill="rgba(120,180,210,.7)" fontFamily="Inter" fontSize="10" letterSpacing="3" fontStyle="italic">THE CREEK</text>
-              </svg>
+              <img src="/projects/creekview-new-cairo/location-map.webp" alt="Creekview location map" />
               <div className="marker">
                 <div className="pulse" />
                 <div className="pin" />
@@ -657,7 +598,7 @@ export function CreekviewLanding() {
       <section className="final" id="final">
         <div className="wrap">
           <div className="final-body">
-            <h2><small>تحب تكلمنا إزاي؟</small>اختار طريقتك<br />وفريق المبيعات هيرد عليك.</h2>
+            <h2><small>تحب تكلمنا إزاي؟</small>اختار الطريقة المناسبة<br />ونرد عليك بالتفاصيل.</h2>
           </div>
           <div className="final-actions">
             <a className="final-card" href={CALL_HREF}>
@@ -670,7 +611,7 @@ export function CreekviewLanding() {
               <div className="tx"><div className="a">WHATSAPP · أسرع رد</div><div className="b">راسلنا على واتساب</div></div>
               <div className="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={22} height={22}><path d="M19 12 L5 12 M5 12 L11 6 M5 12 L11 18" /></svg></div>
             </a>
-            <a className="final-card" href="#lead">
+            <a className="final-card" href="#lead" onClick={handleLeadAnchor}>
               <div className="ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={22} height={22}><path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" /><path d="M14 2 v6 h6" /></svg>
               </div>
@@ -707,12 +648,14 @@ export function CreekviewLanding() {
             <WhatsAppIcon size={20} />
             واتساب
           </a>
-          <a href="#lead">
+          <a href="#lead" onClick={handleLeadAnchor}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={20} height={20}><path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" /><path d="M14 2 v6 h6" /></svg>
             استمارة
           </a>
         </div>
       </nav>
+
+      <CreekLeadPopup open={popupOpen} onClose={closeLeadPopup} />
     </div>
   );
 }
