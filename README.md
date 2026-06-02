@@ -1,0 +1,110 @@
+# Beitlee — Real Estate Landing Pages
+
+Landing page system for Egyptian real estate projects, optimized for Google Ads lead generation.
+
+## Tech Stack
+
+- Next.js 15+ (App Router), TypeScript, Tailwind CSS, Framer Motion
+- Supabase for lead storage
+- Deploy: Vercel + GitHub
+
+## Quick Start
+
+```bash
+npm install
+cp .env.local.example .env.local   # add your Supabase keys
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). Go to [http://localhost:3000/mountainview](http://localhost:3000/mountainview) for the first landing page.
+
+## Performance
+
+- Images are served as AVIF/WebP with optimized quality. Use Next.js `Image` with `sizes` and `quality={82}` for new assets.
+- Hero video uses `preload="metadata"` so the page loads fast; the video stream loads when playback starts. For even faster load, keep `public/hero-video.webm` under ~2–3 MB (e.g. re-encode with lower bitrate or shorter duration).
+
+## Environment Variables
+
+In `.env.local` (and in Vercel for production):
+
+- `NEXT_PUBLIC_SUPABASE_URL` — Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` — Publishable (client-safe) key
+- `SUPABASE_SECRET_KEY` — Secret key (server-only, for `/api/leads`)
+
+## Supabase Setup
+
+1. **Option A (CLI):** `supabase link --project-ref lreayrvngzhvhcgmazcg` then `supabase db push` to apply migrations in `supabase/migrations/`.
+2. **Option B:** Run `supabase-leads-schema.sql` in the Supabase SQL Editor (Dashboard → SQL Editor).
+
+## Folder Structure
+
+```
+app/
+  layout.tsx          # Root layout, fonts, default metadata
+  page.tsx            # Minimal homepage
+  thank-you/page.tsx  # Post-form success page
+  [slug]/page.tsx     # Dynamic route: /mountainview, /tajcity, etc.
+  api/leads/route.ts  # POST handler — saves leads to Supabase
+
+components/
+  layout/              # MinimalHeader, MinimalFooter, StickyMobileCTA
+  sections/            # Hero, Highlights, WhyThis, Location, Pricing, LeadForm, FAQ, FinalCTA
+  ui/                  # Button, SectionWrapper, Badge
+  LandingPageTemplate.tsx   # Composes all sections for a project
+
+content/projects/
+  index.ts             # Registry: slug → content (add new projects here)
+  mountainview.ts      # Mountain View project content
+
+types/project.ts       # ProjectContent interface
+lib/utils.ts           # cn(), formatPrice(), buildWhatsAppUrl()
+lib/supabase.ts        # Supabase client (browser + server)
+```
+
+## How to Add a New Landing Page
+
+1. **Create content file**  
+   Copy `content/projects/mountainview.ts` to e.g. `content/projects/tajcity.ts`. Export as `export const content: ProjectContent = { ... }` (slug = filename). Fill in all fields.
+
+2. **Register the project**  
+   In `content/projects/index.ts`, import the new content and add it to the `projects` object:
+   ```ts
+   import { content as tajcity } from "./tajcity";
+   const projects = {
+     mountainview,
+     tajcity,
+   };
+   ```
+
+3. **Done.**  
+   The page is live at `/tajcity`. No changes to routes or components.
+
+## Where to Edit Content
+
+- **Per-project copy, prices, FAQs, CTAs:** `content/projects/<slug>.ts`
+- **Global site title / default meta:** `app/layout.tsx`
+- **Thank-you page text:** `app/thank-you/page.tsx`
+- **Header/footer text:** `components/layout/MinimalHeader.tsx`, `MinimalFooter.tsx`
+
+## Deploy (Vercel + GitHub)
+
+1. Push the repo to GitHub.
+2. In Vercel: **New Project** → Import the repo → set **Environment Variables** (same as `.env.local`):
+
+   | Name | Value | Notes |
+   |------|--------|------|
+   | `NEXT_PUBLIC_SUPABASE_URL` | `https://lreayrvngzhvhcgmazcg.supabase.co` | Your Supabase project URL |
+   | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | (your publishable key) | From Supabase Dashboard → Settings → API |
+   | `SUPABASE_SECRET_KEY` | (your secret key) | Server-only; used by `/api/leads` |
+
+3. Deploy. Future pushes to `main` auto-deploy.
+
+**Required Vercel environment variables** (must be set for lead form to work in production):
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL, e.g. `https://lreayrvngzhvhcgmazcg.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Publishable key from Supabase Dashboard → Settings → API |
+| `SUPABASE_SECRET_KEY` | Secret key (server-only); used by `POST /api/leads` to insert leads |
+
+A minimal `vercel.json` is included to set the framework; optional redirects or headers can be added there later.
