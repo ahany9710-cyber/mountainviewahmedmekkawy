@@ -544,7 +544,11 @@
 .cv-page .lifestyle .quote-mark { font-family: var(--cv-serif); font-size: 80px; color: var(--cv-gold); line-height: 0; height: 30px; opacity: .6; }
 
 /* ============ LEAD FORM SECTION ============ */
-.cv-page .lead { background: var(--cv-cream); position: relative; overflow: hidden; scroll-margin-top: 112px; }
+.cv-page section[id],
+.cv-page .final[id] {
+  scroll-margin-top: 96px;
+}
+.cv-page .lead { background: var(--cv-cream); position: relative; overflow: hidden; }
 .cv-page .lead-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: stretch; }
 .cv-page .lead-left { display: flex; flex-direction: column; justify-content: space-between; padding: 8px 0; }
 .cv-page .lead-left h2 { font-family: var(--cv-serif); font-style: italic; font-weight: 400; font-size: clamp(36px, 5vw, 60px); line-height: 1.05; margin: 18px 0; color: var(--cv-ink); }

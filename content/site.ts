@@ -15,6 +15,7 @@ export interface SiteFAQ {
 
 export const SITE = {
   developer: "ماونتن ڤيو",
+  url: "https://www.mountainview-offers.com",
   /** Default WhatsApp / phone (E.164 digits, no plus). */
   whatsappNumber: "201038666566",
   phoneNumber: "201038666566",

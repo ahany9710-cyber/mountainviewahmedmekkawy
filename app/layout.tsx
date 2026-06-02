@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 const cairo = Cairo({
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
   },
   description:
     "كريك ڤيو من ماونتن ڤيو: مجتمع سكني على الكريك في القاهرة الجديدة. Heights · Valleys · Islands · The Lighthouse.",
-  metadataBase: new URL("https://mountainview.realestates.properties"),
+  metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "ar_EG",

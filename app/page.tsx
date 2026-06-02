@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import { CreekviewLanding } from "@/components/landings/CreekviewLanding";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: { absolute: "كريك ڤيو — ماونتن ڤيو · القاهرة الجديدة" },
   description:
     "كريك ڤيو من ماونتن ڤيو: water living على الكريك في New Cairo. Heights · Valleys · Islands · The Lighthouse — تواصل مع مستشار المبيعات.",
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
+    url: SITE_URL,
     title: "كريك ڤيو — ماونتن ڤيو · القاهرة الجديدة",
     description:
       "Elevating the Creekfront Experience — Creekview New Cairo by Mountain View.",

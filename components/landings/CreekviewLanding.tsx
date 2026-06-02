@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
 import { CreekLeadForm } from "@/components/landings/CreekLeadForm";
 import { CreekLeadPopup } from "@/components/landings/CreekLeadPopup";
+import { sectionHref } from "@/lib/site-url";
 import "./creekview.css";
 
 /** Internal redirects — لا تُظهر أرقام المبيعات في `href`. انظر `app/r/creek-call`, `app/r/creek-wa`. */
@@ -108,14 +109,6 @@ export function CreekviewLanding() {
     }
   }, []);
 
-  const handleLeadAnchor = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      e.preventDefault();
-      openLeadPopup();
-    },
-    [openLeadPopup],
-  );
-
   const switchHero = useCallback((i: number) => {
     setHeroFading(true);
     setTimeout(() => {
@@ -216,7 +209,7 @@ export function CreekviewLanding() {
               <PhoneIcon />
               <span className="t">اتصل الآن</span>
             </a>
-            <a className="wa" href="#lead" onClick={handleLeadAnchor} aria-label="احجز مكانك على الماستر بلان">
+            <a className="wa" href={sectionHref("masterplan")} aria-label="احجز مكانك على الماستر بلان">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={16} height={16} aria-hidden>
                 <path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" />
                 <path d="M14 2 v6 h6 M9 13 h6 M9 17 h6" />
@@ -268,7 +261,7 @@ export function CreekviewLanding() {
                   <WhatsAppIcon size={18} />
                   كلمنا واتساب
                 </a>
-                <a className="btn btn-form" href="#lead" onClick={handleLeadAnchor}>
+                <a className="btn btn-form" href={sectionHref("lead")}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={18} height={18}>
                     <path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" />
                     <path d="M14 2 v6 h6" />
@@ -325,7 +318,7 @@ export function CreekviewLanding() {
       </section>
 
       {/* HIGHLIGHTS */}
-      <section className="s highlights">
+      <section className="s highlights" id="highlights">
         <div className="wrap">
           <div className="s-head">
             <div>
@@ -372,7 +365,7 @@ export function CreekviewLanding() {
       </section>
 
       {/* EDITORIAL */}
-      <section className="s editorial">
+      <section className="s editorial" id="masterplan">
         <div className="wrap">
           <div className="ed-grid">
             <div className="ed-img ed-img--map">
@@ -407,7 +400,7 @@ export function CreekviewLanding() {
       </section>
 
       {/* NEIGHBORHOODS */}
-      <section className="s neighborhoods">
+      <section className="s neighborhoods" id="neighborhoods">
         <div className="wrap">
           <div className="s-head">
             <div>
@@ -436,7 +429,7 @@ export function CreekviewLanding() {
       </section>
 
       {/* GALLERY */}
-      <section className="s gallery">
+      <section className="s gallery" id="gallery">
         <div className="wrap">
           <div className="s-head">
             <div>
@@ -510,13 +503,13 @@ export function CreekviewLanding() {
       </section>
 
       {/* LIFESTYLE QUOTE */}
-      <section className="lifestyle">
+      <section className="lifestyle" id="lifestyle">
         <div className="bg" style={{ backgroundImage: "url('/projects/creekview-new-cairo/gallery-creekfront-2.webp')" }} />
         <div className="wrap">
           <div className="quote-mark">&ldquo;</div>
           <h2>يومك ماشي مع الكريك.</h2>
           <p>في كريك ڤيو، الحياة اليومية متقسمة بين ممشى على المياه، جلسات بإطلالة، أنشطة خفيفة، ومساحات هادئة للاسترخاء. مشروع معمول عشان الإطلالة والخدمات تبقى جزء من يومك.</p>
-          <a className="btn btn-call" href="#lead" onClick={handleLeadAnchor}>احجز معاينة على الموقع</a>
+          <a className="btn btn-call" href={sectionHref("lead")}>احجز معاينة على الموقع</a>
         </div>
       </section>
 
@@ -555,7 +548,7 @@ export function CreekviewLanding() {
       </section>
 
       {/* LOCATION */}
-      <section className="s location">
+      <section className="s location" id="location">
         <div className="wrap">
           <div className="s-head">
             <div>
@@ -592,7 +585,7 @@ export function CreekviewLanding() {
       </section>
 
       {/* FAQ */}
-      <section className="s faq">
+      <section className="s faq" id="faq">
         <div className="wrap">
           <div className="s-head">
             <div>
@@ -636,7 +629,7 @@ export function CreekviewLanding() {
               <div className="tx"><div className="a">WHATSAPP · أسرع رد</div><div className="b">راسلنا على واتساب</div></div>
               <div className="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={22} height={22}><path d="M19 12 L5 12 M5 12 L11 6 M5 12 L11 18" /></svg></div>
             </a>
-            <a className="final-card" href="#lead" onClick={handleLeadAnchor}>
+            <a className="final-card" href={sectionHref("lead")}>
               <div className="ic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={22} height={22}><path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" /><path d="M14 2 v6 h6" /></svg>
               </div>
@@ -673,7 +666,7 @@ export function CreekviewLanding() {
             <WhatsAppIcon size={20} />
             واتساب
           </a>
-          <a href="#lead" onClick={handleLeadAnchor}>
+          <a href={sectionHref("lead")}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={20} height={20}><path d="M14 2 H6 a2 2 0 0 0-2 2 v16 a2 2 0 0 0 2 2 h12 a2 2 0 0 0 2-2 V8 z" /><path d="M14 2 v6 h6" /></svg>
             استمارة
           </a>
