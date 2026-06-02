@@ -137,8 +137,33 @@ export function CreekviewLanding() {
     } catch {
       // ignore
     }
-    const timer = window.setTimeout(() => setPopupOpen(true), 5000);
-    return () => window.clearTimeout(timer);
+
+    let triggered = false;
+    const trigger = () => {
+      if (triggered) return;
+      triggered = true;
+      setPopupOpen(true);
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
+
+    const timer = window.setTimeout(trigger, 20000);
+
+    function onScroll() {
+      const doc = document.documentElement;
+      const maxScroll = doc.scrollHeight - doc.clientHeight;
+      if (maxScroll <= 0) return;
+      const pct = window.scrollY / maxScroll;
+      if (pct >= 0.8) trigger();
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (
