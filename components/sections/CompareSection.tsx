@@ -46,7 +46,7 @@ export function CompareSection({ projects }: CompareSectionProps) {
             { whatsappNumber: p.whatsappNumber, projectName: p.projectName },
             "pricing"
           );
-          const isLaunch = p.slug === "creekview-new-cairo";
+          const isLaunch = p.slug === "mountain-view-1-1";
           return (
             <motion.article
               key={p.slug}

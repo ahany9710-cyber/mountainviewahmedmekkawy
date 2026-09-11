@@ -1,23 +1,29 @@
 import type { Metadata } from "next";
-import { CreekviewLanding } from "@/components/landings/CreekviewLanding";
+import { MV11Landing } from "@/components/landings/MV11Landing";
 import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
-  title: { absolute: "كريك ڤيو — ماونتن ڤيو · القاهرة الجديدة" },
+  title: { absolute: "ماونتن ڤيو ١.١ — وحدات جاهزة للتسليم · Signature Living" },
   description:
-    "كريك ڤيو من ماونتن ڤيو: water living على الكريك في New Cairo. Heights · Valleys · Islands · The Lighthouse — تواصل مع مستشار المبيعات.",
+    "ماونتن ڤيو ١.١ أمام النائب العام: وحدات متشطبة بالكامل وجاهزة للتسليم. أسعار من 14.5 مليون — Millennial · I-Villa · Town House · Villa · Crown Palace.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
     url: SITE_URL,
-    title: "كريك ڤيو — ماونتن ڤيو · القاهرة الجديدة",
+    title: "ماونتن ڤيو ١.١ — وحدات جاهزة للتسليم · Signature Living",
     description:
-      "Elevating the Creekfront Experience — Creekview New Cairo by Mountain View.",
-    images: [{ url: "/projects/creekview-new-cairo/hero-creekfront.webp", width: 1200, height: 630 }],
+      "Ready-to-move, fully finished units in Mountain View 1.1 — Signature Living, New Cairo.",
+    images: [
+      {
+        url: "/projects/mountain-view-1-1/photo-facades.webp",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
 };
 
 export default function HomePage() {
-  return <CreekviewLanding />;
+  return <MV11Landing />;
 }

@@ -25,8 +25,8 @@ async function check(label, url, userAgent) {
   if (label === "Homepage") {
     ok =
       ok &&
-      (body.includes('class="hero"') || body.includes("cv-page")) &&
-      (body.includes("Creekview") || body.includes("كريك"));
+      (body.includes('class="hero"') || body.includes("mv-page")) &&
+      (body.includes("Mountain View 1.1") || body.includes("ماونتن ڤيو ١.١"));
   } else if (label === "Robots") {
     ok = ok && body.includes("AdsBot-Google") && body.includes("Allow: /");
   } else if (label === "Sitemap") {
