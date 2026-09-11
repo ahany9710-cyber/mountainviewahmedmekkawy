@@ -54,10 +54,14 @@ export function MVLeadForm({
       project_name: mvProject.projectName,
       source,
       approximate_budget: budget ?? "",
-      _subject: `استفسار ماونتن ڤيو — ${name || "عميل"} — ${mvProject.projectName}`,
+      _subject: `استفسار Flair Agency — ${name || "عميل"} — ${mvProject.projectName}`,
     };
     if (name) payload.name = name;
     if (unitType) payload.unit_interest = unitType;
+    payload.agency = "Flair Agency";
+    payload.agency_role = "real-estate-broker";
+    payload.not_developer = "true";
+    payload.developer = "Mountain View";
 
     try {
       const res = await fetch(FORMSPREE_LEAD_ENDPOINT, {
@@ -192,7 +196,8 @@ export function MVLeadForm({
           </svg>
         </button>
         <div className="fineprint">
-          بإرسال النموذج أنت توافق على تواصل فريق المبيعات معك — لن نشارك بياناتك مع أي طرف ثالث.
+          بإرسال النموذج توافق على تواصل Flair Agency معك بخصوص وحدات ماونتن ڤيو ١.١.
+          نحن بروكر تسويق عقاري بشراكة مع المطوّر ولسنا ماونتن ڤيو — لن نبيع بياناتك لطرف ثالث غير ذي صلة بالاستفسار.
         </div>
       </form>
     </>

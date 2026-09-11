@@ -4,13 +4,11 @@ export const SITE_URL = "https://www.mountainview-offers.com";
 /** In-page section IDs (https://www.mountainview-offers.com/#units). */
 export const PAGE_SECTIONS = {
   hero: "hero",
-  facts: "facts",
   units: "units",
   payment: "payment",
   gallery: "gallery",
   location: "location",
   lead: "lead",
-  faq: "faq",
   contact: "final",
 } as const;
 

@@ -11,7 +11,7 @@ import { MinimalFooter } from "@/components/layout/MinimalFooter";
 export default function ThankYouPage() {
   const whatsappUrl = buildWhatsAppUrl(
     SITE.whatsappNumber,
-    "السلام عليكم، تم إرسال استفساري عبر الموقع وأرغب في متابعة الحجز."
+    "السلام عليكم، تم إرسال استفساري لـ Flair Agency بخصوص ماونتن ڤيو ١.١ وأرغب في المتابعة."
   );
   const callUrl = telHref(SITE.phoneNumber);
 
@@ -26,9 +26,10 @@ export default function ThankYouPage() {
           </div>
           <h1 className="text-2xl font-bold text-navy mb-2">شكراً لتواصلك</h1>
           <p className="text-muted mb-2">
-            تم استلام بياناتك بنجاح. مستشار المبيعات هيتواصل معك خلال دقايق.
+            تم استلام بياناتك بنجاح. مستشار Flair Agency هيتواصل معك قريباً.
           </p>
           <p className="text-muted mb-8 text-sm">
+            نحن بروكر تسويق عقاري بشراكة مع ماونتن ڤيو ولسنا المطوّر.
             تحب تختصر الانتظار؟ كلمنا أو ابعت واتساب دلوقتي.
           </p>
           <div className="flex flex-col gap-3">
@@ -55,7 +56,7 @@ export default function ThankYouPage() {
           </div>
         </div>
       </div>
-      <MinimalFooter tagline={`${SITE.developer} — مشاريع في القاهرة الجديدة، المستقبل سيتي، والعاصمة الإدارية`} />
+      <MinimalFooter tagline="Flair Agency — بروكر تسويق عقاري بشراكة مع ماونتن ڤيو (لسنا المطوّر)" />
     </div>
   );
 }

@@ -201,15 +201,15 @@ export const content: ProjectContent = {
         "ماونتن ڤيو ١.١ في التجمع الخامس أمام مبنى النائب العام — امتداد لمجتمع ماونتن ڤيو ١ على ١٢٧ فدان.",
     },
   ],
-  seoTitle: "ماونتن ڤيو ١.١ | وحدات جاهزة للتسليم — Signature Living",
+  seoTitle: "ماونتن ڤيو ١.١ | Flair Agency — بروكر بشراكة مع ماونتن ڤيو",
   seoDescription:
-    "ماونتن ڤيو ١.١ أمام النائب العام: وحدات متشطبة بالكامل وجاهزة للتسليم. أسعار من 14.5 مليون — Millennial · I-Villa · Town House · Villa · Crown Palace.",
+    "عرض تسويقي من Flair Agency (بروكر) لوحدات ماونتن ڤيو ١.١. لسنا المطوّر — أسعار استرشادية من 14.5 مليون حسب التوفر. العرض الرسمي من ماونتن ڤيو.",
   ogImage: "/projects/mountain-view-1-1/photo-facades.webp",
   phoneNumber: "201038666566",
   whatsappNumber: "201038666566",
   whatsappInquiryMessage:
     "السلام عليكم، مهتم بماونتن ڤيو ١.١ وأرغب في التفاصيل والأسعار للوحدات الجاهزة للتسليم.",
-  ctaText: "سجّل اهتمامك بماونتن ڤيو ١.١",
-  leadFormCtaText: "ابعتلي تفاصيل ماونتن ڤيو ١.١",
-  offerBadge: "Ready to Move · Signature Living",
+  ctaText: "سجّل اهتمامك عبر Flair Agency",
+  leadFormCtaText: "ابعتلي التفاصيل من Flair Agency",
+  offerBadge: "Ready to Move حسب التوفر · عرض Flair Agency",
 };

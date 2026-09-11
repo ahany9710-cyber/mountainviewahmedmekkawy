@@ -19,15 +19,16 @@ const almarai = Almarai({
 
 export const metadata: Metadata = {
   title: {
-    default: "ماونتن ڤيو ١.١ — وحدات جاهزة للتسليم · Signature Living",
-    template: "%s | ماونتن ڤيو",
+    default: "ماونتن ڤيو ١.١ | Flair Agency — بروكر تسويق عقاري",
+    template: "%s | Flair Agency",
   },
   description:
-    "ماونتن ڤيو ١.١ أمام النائب العام: وحدات متشطبة بالكامل وجاهزة للتسليم. أسعار من 14.5 مليون — Millennial · I-Villa · Town House · Villa · Crown Palace.",
+    "عرض تسويقي من Flair Agency (بروكر بشراكة مع ماونتن ڤيو) لوحدات Mountain View 1.1. لسنا المطوّر — الأسعار استرشادية من 14.5 مليون حسب التوفر.",
   metadataBase: new URL(SITE_URL),
   openGraph: {
     type: "website",
     locale: "ar_EG",
+    siteName: "Flair Agency",
     images: [
       {
         url: "/projects/mountain-view-1-1/photo-facades.webp",

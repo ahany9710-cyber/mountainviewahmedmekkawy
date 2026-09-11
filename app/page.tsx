@@ -3,17 +3,20 @@ import { MV11Landing } from "@/components/landings/MV11Landing";
 import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
-  title: { absolute: "ماونتن ڤيو ١.١ — وحدات جاهزة للتسليم · Signature Living" },
+  title: {
+    absolute: "ماونتن ڤيو ١.١ | Flair Agency — بروكر بشراكة مع ماونتن ڤيو",
+  },
   description:
-    "ماونتن ڤيو ١.١ أمام النائب العام: وحدات متشطبة بالكامل وجاهزة للتسليم. أسعار من 14.5 مليون — Millennial · I-Villa · Town House · Villa · Crown Palace.",
+    "Flair Agency (وكيل تسويق عقاري) يعرض وحدات Mountain View 1.1 أمام النائب العام. لسنا المطوّر — أسعار استرشادية من 14.5 مليون حسب التوفر. العرض الرسمي من ماونتن ڤيو.",
   alternates: {
     canonical: SITE_URL,
   },
   openGraph: {
     url: SITE_URL,
-    title: "ماونتن ڤيو ١.١ — وحدات جاهزة للتسليم · Signature Living",
+    siteName: "Flair Agency",
+    title: "ماونتن ڤيو ١.١ | Flair Agency — بروكر تسويق عقاري",
     description:
-      "Ready-to-move, fully finished units in Mountain View 1.1 — Signature Living, New Cairo.",
+      "Marketing offer by Flair Agency (broker partner). Not the developer. Indicative pricing for Mountain View 1.1 units — official offer from Mountain View.",
     images: [
       {
         url: "/projects/mountain-view-1-1/photo-facades.webp",

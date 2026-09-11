@@ -85,25 +85,6 @@ const GALLERY = [
   { src: "/projects/mountain-view-1-1/mv1-homes-01.webp", alt: "وحدات سكنية" },
 ];
 
-const FAQS = [
-  {
-    q: "الوحدات جاهزة للتسليم فعلاً؟",
-    a: "نعم — جزء كبير من الوحدات Ready to Move ومتشطب بالكامل. التوفر الحالي يتأكد مع مستشار المبيعات.",
-  },
-  {
-    q: "إيه أنظمة السداد المتاحة؟",
-    a: "للوحدات: 10% + 5% وتقسيط حتى 8 سنوات. للفيلات: 20% + 5% حتى 7 سنوات. Crown Palace لها خطة خاصة + باقة تشطيب.",
-  },
-  {
-    q: "إيه أنواع الوحدات المتاحة؟",
-    a: "Millennial، I-Villa Sky Garden، Town House، Luxury Villa، وCrown Palace (Limited Edition) — بمساحات وأسعار كما في الجدول.",
-  },
-  {
-    q: "فين المشروع بالظبط؟",
-    a: "ماونتن ڤيو ١.١ في التجمع الخامس أمام مبنى النائب العام — امتداد لمجتمع ماونتن ڤيو ١ على ١٢٧ فدان.",
-  },
-];
-
 function PhoneIcon({ size = 18 }: { size?: number }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={size} height={size}>
@@ -131,7 +112,6 @@ function CheckIcon() {
 export function MV11Landing() {
   const [heroIdx, setHeroIdx] = useState(0);
   const [heroFading, setHeroFading] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [popupOpen, setPopupOpen] = useState(false);
 
   const openLeadPopup = useCallback(() => setPopupOpen(true), []);
@@ -190,34 +170,20 @@ export function MV11Landing() {
 
   return (
     <div className="mv-page">
-      {/* Utility */}
-      <div className="utility">
-        <div className="wrap">
-          <div className="utility-left">
-            <span className="utility-dot" aria-hidden />
-            <span>مستشار المبيعات متاح الآن · إطلاق ماونتن ڤيو ١.١</span>
-          </div>
-          <div className="utility-links">
-            <a href={CALL_HREF}>اتصل بماونتن ڤيو</a>
-            <a href={mvWaPreset("inquiry")}>راسلنا على واتساب</a>
-          </div>
-        </div>
-      </div>
-
       {/* Header */}
       <header className="mv-header">
         <div className="wrap">
           <div className="brand">
             <Image
               src="/Mountain View Logo.webp"
-              alt="Mountain View"
-              width={140}
-              height={40}
+              alt="Mountain View — مشروع معروض عبر Flair Agency"
+              width={120}
+              height={34}
               priority
             />
             <div className="brand-text">
-              <strong>MOUNTAIN VIEW</strong>
-              <span>1.1 · Signature Living</span>
+              <strong className="latin">Flair Agency</strong>
+              <span>بروكر · شريك تسويق · MV 1.1</span>
             </div>
           </div>
           <div className="header-actions">
@@ -232,6 +198,16 @@ export function MV11Landing() {
         </div>
       </header>
 
+      <div className="broker-disclosure" role="note">
+        <div className="wrap">
+          هذه الصفحة مقدمة من <strong className="latin">Flair Agency</strong> —
+          وكيل تسويق عقاري (بروكر) بشراكة مع ماونتن ڤيو.
+          {" "}
+          <strong>لسنا المطوّر</strong>
+          ، والأسعار والعروض النهائية معتمدة من المطوّر فقط.
+        </div>
+      </div>
+
       {/* Hero */}
       <section className="hero" id="hero">
         <div
@@ -241,19 +217,18 @@ export function MV11Landing() {
             opacity: heroFading ? 0.4 : 1,
           }}
         />
-        <div className="hero-overlay" />
+        <div className="hero-badge">
+          <span className="ready">READY TO MOVE</span>
+          <span>حسب التوفر · Signature Living</span>
+        </div>
         <div className="hero-inner wrap">
-          <div className="hero-badge">
-            <span className="ready">READY TO MOVE</span>
-            <span>Signature Living · يونيو ٢٠٢٦</span>
-          </div>
           <h1>
             <span className="latin">Mountain View 1.1</span>
-            وحدات متشطبة بالكامل وجاهزة للتسليم
+            وحدات متشطبة · جاهزة للتسليم حسب التوفر
           </h1>
           <p className="hero-sub">
-            في واحد من أرقى مشروعات ماونتن ڤيو أمام النائب العام.
-            أسعار تبدأ من <strong>14.5 مليون</strong> — أنظمة سداد مميزة.
+            عرض تسويقي من Flair Agency لوحدات في مشروع ماونتن ڤيو أمام النائب العام.
+            أسعار استرشادية تبدأ من <strong>14.5 مليون</strong> — التأكيد مع المستشار.
           </p>
           <div className="hero-ctas">
             <a className="btn btn-call" href={CALL_HREF}>
@@ -268,46 +243,6 @@ export function MV11Landing() {
               احجز معاينة
             </a>
           </div>
-          <div className="hero-meta">
-            <div className="meta-item">
-              <strong className="latin">14.5M+</strong>
-              <span>سعر البداية</span>
-            </div>
-            <div className="meta-item">
-              <strong>متشطبة</strong>
-              <span>بالكامل</span>
-            </div>
-            <div className="meta-item">
-              <strong className="latin">8 yrs</strong>
-              <span>تقسيط حتى</span>
-            </div>
-            <div className="meta-item">
-              <strong>١٢٧</strong>
-              <span>فدان</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Facts */}
-      <section className="facts" id="facts">
-        <div className="wrap facts-grid">
-          <div className="fact-cell">
-            <strong>متشطبة</strong>
-            <span>بالكامل</span>
-          </div>
-          <div className="fact-cell">
-            <strong className="latin">Ready to Move</strong>
-            <span>جاهزة للتسليم</span>
-          </div>
-          <div className="fact-cell">
-            <strong>١٢٧ فدان</strong>
-            <span>في قلب القاهرة الجديدة</span>
-          </div>
-          <div className="fact-cell">
-            <strong>أمام النائب العام</strong>
-            <span>التجمع الخامس</span>
-          </div>
         </div>
       </section>
 
@@ -318,8 +253,8 @@ export function MV11Landing() {
             <div className="eyebrow">Units &amp; Pricing</div>
             <h2>الوحدات والأسعار</h2>
             <p>
-              تشكيلة من Millennial حتى Crown Palace — كلها متشطبة بالكامل،
-              وبعضها Ready to Move فوراً.
+              تشكيلة من Millennial حتى Crown Palace — الأسعار والمساحات استرشادية،
+              والتشطيب والتسليم حسب نوع الوحدة والتوفر الحالي.
             </p>
           </div>
           <div className="unit-cards">
@@ -332,8 +267,8 @@ export function MV11Landing() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={u.img} alt={u.name} loading="lazy" />
                   <div className="unit-badges">
-                    <span className="unit-badge finished">متشطبة</span>
-                    {u.ready ? <span className="unit-badge ready">Ready to Move</span> : null}
+                    <span className="unit-badge finished">متشطبة*</span>
+                    {u.ready ? <span className="unit-badge ready">Ready*</span> : null}
                     {u.limited ? <span className="unit-badge limited">Limited Edition</span> : null}
                   </div>
                 </div>
@@ -364,8 +299,9 @@ export function MV11Landing() {
             ))}
           </div>
           <p className="units-footnote">
-            * الأسعار استرشادية وفق عرض الإطلاق الحالي — التوفر والمراحل تتغيّر.
-            العرض الرسمي يُعتمد من ماونتن ڤيو.
+            * التشطيب وReady to Move حسب الوحدة والتوفر المعلن — قد يتغيّر.
+            الأسعار والمساحات استرشادية. العرض الرسمي والجدول النهائي معتمدان من المطوّر (ماونتن ڤيو).
+            هذه الصفحة من Flair Agency (بروكر) وليست الموقع الرسمي للمطوّر.
           </p>
         </div>
       </section>
@@ -375,21 +311,17 @@ export function MV11Landing() {
         <div className="wrap">
           <div className="s-head">
             <div className="eyebrow">Payment Plans</div>
-            <h2>أنظمة سداد مميزة</h2>
-            <p>خطط مرنة تناسب الوحدات والفيلات — مع استلام فوري لوحدات Ready to Move.</p>
+            <h2>أنظمة سداد معلنة</h2>
+            <p>
+              خطط استرشادية معلنة حالياً — الجدول النهائي والمقدم يُثبتان في العرض الرسمي من المطوّر.
+            </p>
           </div>
           <div className="pay-grid">
             <div className="pay-card">
-              <div className="pay-label">Units</div>
+              <div className="pay-label">Units · استرشادي</div>
               <h3>Millennial · I-Villa</h3>
               <div className="pay-plan latin">10% + 5%</div>
-              <p>مقدم ١٠٪ + ٥٪ — وتقسيط حتى ٨ سنوات.</p>
-            </div>
-            <div className="pay-card villas">
-              <div className="pay-label">Villas</div>
-              <h3>Town House · Luxury Villa</h3>
-              <div className="pay-plan latin">20% + 5%</div>
-              <p>مقدم ٢٠٪ + ٥٪ — وتقسيط حتى ٧ سنوات. وحدات Ready to Move.</p>
+              <p>مقدم ١٠٪ + ٥٪ — وتقسيط حتى ٨ سنوات (حسب العرض المعتمد من المطوّر).</p>
             </div>
           </div>
         </div>
@@ -401,7 +333,7 @@ export function MV11Landing() {
           <div className="s-head">
             <div className="eyebrow">Gallery</div>
             <h2>لقطات من المجتمع</h2>
-            <p>صور واقعية من ماونتن ڤيو ١ وماونتن ڤيو ١.١ — Signature Living.</p>
+            <p>صور من مشروع ماونتن ڤيو ١ / ١.١ — معروضة عبر Flair Agency لأغراض التسويق.</p>
           </div>
           <div className="gallery-grid">
             {GALLERY.map((g) => (
@@ -458,15 +390,15 @@ export function MV11Landing() {
             <div className="eyebrow">Get Details</div>
             <h2>سيب بياناتك، ونبعتلك التفاصيل</h2>
             <p>
-              هنبعتلك جدول الوحدات والأسعار وخطط السداد المتاحة.
-              التواصل للاستفسار فقط وبدون أي التزام.
+              فريق Flair Agency هيبعتلك جدول الوحدات والأسعار الاسترشادية وخطط السداد.
+              التواصل للاستفسار فقط وبدون أي التزام — والعرض النهائي من المطوّر.
             </p>
             <ul className="lead-perks">
               {[
-                "جدول أسعار لكل نوع وحدة",
-                "خطط سداد مرنة تناسب ميزانيتك",
-                "تنسيق معاينة على أرض المشروع",
-                "وحدات Ready to Move متاحة الآن",
+                "جدول أسعار استرشادي لكل نوع وحدة",
+                "توضيح خطط السداد المعلنة",
+                "تنسيق معاينة عند الإمكان",
+                "تأكيد التوفر قبل أي حجز",
               ].map((t) => (
                 <li key={t}>
                   <span className="check"><CheckIcon /></span>
@@ -481,47 +413,19 @@ export function MV11Landing() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="s faq" id="faq">
-        <div className="wrap">
-          <div className="s-head">
-            <div className="eyebrow">FAQ</div>
-            <h2>أسئلة شائعة</h2>
-            <p>لو في سؤال مش لاقي إجابته هنا، ابعتلنا واتساب وهنرد عليك خلال دقائق.</p>
-          </div>
-          <div className="faq-list">
-            {FAQS.map((f, i) => (
-              <div key={f.q} className={`faq-item${openFaq === i ? " open" : ""}`}>
-                <button
-                  type="button"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  aria-expanded={openFaq === i}
-                >
-                  <span>{f.q}</span>
-                  <svg className="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width={20} height={20}>
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </button>
-                <div className="ans">{f.a}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Final */}
       <section className="final" id="final">
         <div className="wrap">
           <h2>
-            <small>Mountain View 1.1</small>
+            <small>Flair Agency · Mountain View 1.1</small>
             تحب تكلمنا إزاي؟
           </h2>
-          <p>اختار الطريقة المناسبة ونرد عليك بتفاصيل الوحدات والأسعار.</p>
+          <p>تواصل مع مستشار Flair Agency لتفاصيل الوحدات والأسعار الاسترشادية.</p>
           <div className="final-cards">
             <a className="final-card" href={CALL_HREF}>
               <PhoneIcon size={22} />
               <strong>CALL</strong>
-              <span>اتصل بماونتن ڤيو</span>
+              <span>اتصل بـ Flair Agency</span>
             </a>
             <a className="final-card" href={mvWaPreset("inquiry")}>
               <WhatsAppIcon size={22} />
@@ -539,8 +443,15 @@ export function MV11Landing() {
       {/* Footer */}
       <footer className="mv-footer">
         <div className="wrap">
-          <p>© ٢٠٢٦ ماونتن ڤيو · ١.١ Signature Living · القاهرة الجديدة</p>
-          <p>الأسعار والمساحات استرشادية وقد تتغيّر — العرض الرسمي يُعتمد من المطوّر.</p>
+          <p>
+            © ٢٠٢٦ <span className="latin">Flair Agency</span> — وكيل تسويق عقاري (بروكر)
+          </p>
+          <p>
+            هذه الصفحة ليست الموقع الرسمي لماونتن ڤيو. نحن لسنا المطوّر.
+            نعمل بشراكة تسويقية لعرض وحدات مشروع Mountain View 1.1.
+            المطوّر: ماونتن ڤيو · الأسعار والمساحات وخطط السداد استرشادية وقد تتغيّر —
+            والعرض الرسمي يُعتمد من المطوّر فقط.
+          </p>
         </div>
       </footer>
 

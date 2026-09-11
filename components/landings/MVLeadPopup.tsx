@@ -78,12 +78,13 @@ export function MVLeadPopup({ open, onClose }: MVLeadPopupProps) {
         </button>
 
         <div className="mv-lead-popup-copy">
-          <div className="eyebrow">ماونتن ڤيو ١.١ · Signature Living</div>
+          <div className="eyebrow">Flair Agency · عرض MV 1.1</div>
           <h2 className="lead-popup-title" id="mv-lead-popup-title">
             محتاج تفاصيل وأسعار؟
           </h2>
           <p className="lead-popup-lede">
-            اتصل أو ابعت واتساب، أو سيب رقمك وهنبعتلك جدول الوحدات وخطط السداد.
+            تواصل مع Flair Agency (بروكر بشراكة مع ماونتن ڤيو) — لسنا المطوّر.
+            الأسعار استرشادية والعرض النهائي من المطوّر.
           </p>
           <div className="mv-popup-cta-grid">
             <a className="btn btn-call" href={CALL_HREF}>
